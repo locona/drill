@@ -23,7 +23,7 @@ type queryRequest struct {
 	Query     string `json:"query"`
 }
 
-type queryResposne struct {
+type queryResponse struct {
 	Columns []string                 `json:"columns"`
 	Rows    []map[string]interface{} `json:"rows"`
 }
@@ -39,7 +39,7 @@ func New(url string) *Drill {
 	}
 }
 
-func (this *Drill) Query(query string) (*queryResposne, error) {
+func (this *Drill) Query(query string) (*queryResponse, error) {
 	body := queryRequest{QueryType: "SQL", Query: query}
 	endpoint := fmt.Sprintf(queryEndpoint, this.URL)
 
@@ -61,7 +61,7 @@ func (this *Drill) Query(query string) (*queryResposne, error) {
 		return nil, err
 	}
 
-	result := &queryResposne{}
+	result := &queryResponse{}
 	err = json.Unmarshal(b, result)
 	if err != nil {
 		log.Println(err)
